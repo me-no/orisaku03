@@ -7,8 +7,9 @@ const height= actualSize*scal;
 var colors = [
     //["lightcyan", 92, 160, 181],
     //["cyan", 89, 147, 171], 
-    ["aqua", 103,214,235],
-    ["white", 255,255,255],
+    ["koiaqua", 181, 248, 255],
+    //["aqua", 103,214,235],
+    //["white", 255,255,255],
     //["blue", 31, 110, 158],
     //["deepblue", 31, 95, 143],
 ];
@@ -43,13 +44,24 @@ var yrightmid = Math.random(3,4);
 
 var noiseVar = 1;
 
+// for sine curve 
+let xspacing = scal; // Distance between each horizontal location
+let w; // Width of entire wave
+let theta = 0.0; // Start angle at 0
+let amplitude = 60.0; // Height of wave
+let period = 180.0; // How many pixels before the wave repeats
+let dx; // Value for incrementing x
+let yvalues; // Using an array to store height values for the wave
+
+
 function preload() {
     // Font
     font = loadFont("misaki_gothic.ttf");
 
     // Images
-    imgbk = loadImage("images/back.png");
+    //imgbk = loadImage("images/back.png");
     imghk_bk= loadImage("images/hackle_koi_back.png");
+    imgsky = loadImage("images/sky.png");
     imghk = loadImage("images/hackle_koi.png");
     koibl = loadImage("images/bluekoi.png");// 鯉たちは11x18
     koiaq = loadImage("images/lightbluekoi.png");
@@ -60,21 +72,48 @@ function preload() {
 function setup () {
     createCanvas(width, height);
     noFill();
-    background(255);
+    frameRate(30);
+    background(181, 248, 255);
+
+    // for sine curve
+    w =  width + xspacing;
+    dx = (TWO_PI / period) * xspacing;
+    yvalues = new Array(floor(w / xspacing));
+
 }
 
 function draw() {
+    // sine curve
+    calcWave();
+    renderWave();
+    //image(ly, 0, 0);
+    theta += 0.001;
+    let phi = theta;
+    for (let i = 0; i < yvalues.length; i++){
+        yvalues[i] = sin(phi) * amplitude;
+        phi +=dx;
+    }
+    noStroke();
+    fill(255);
+    for (let x = 0; x < yvalues.length; x++) {
+        rect(x*xspacing, 20*scal +yvalues[x], scal, scal);
+        rect(x*xspacing, 40*scal +yvalues[x], scal, scal);
+        rect(x*xspacing, 65*scal +yvalues[x], scal, scal);
+        rect(x*xspacing, 95*scal + yvalues[x], scal, scal);
+    }
+    
     //読み込んだ画像の表示
-    image(imgbk, 0, 0, width, height);
+    //image(imgbk, 0, 0, width, height);
+    image(imgsky, 0, 0, width, height);
     image(imghk_bk, 0, 0, width, height);
 
     // 青空の描画
     x = int(random(-15, actualSize))*scal;// x とy が頂点; 
-    y = int(random(-15, actualSize))*scal;
+    y = int(random(-15, actualSize/3))*scal;
 
     colorDice = int(random(0, colors.length));
     r = int(random(2, 15))*2-1;// 奇数で出力
-    tr = random(0, 50);
+    tr = random(0, 70);
     for (i = 0; i < r; i++) {
         ii = i*2+1;
         j = (r - ii)/2;
@@ -188,3 +227,23 @@ function draw() {
     text("さよならさんすう", -10, height - 16, width);
 }
 
+function calcWave() {
+    // Increment theta (try different values for
+    // 'angular velocity' here)
+    theta += 0.02;
+  
+    // For every x value, calculate a y value with sine function
+    let x = theta;
+    for (let i = 0; i < yvalues.length; i++) {
+      yvalues[i] = sin(x) * amplitude;
+      x += dx;
+    }
+  }
+  
+  function renderWave() {
+    // A simple way to draw the wave with an ellipse at each location
+    for (let x = 0; x < yvalues.length; x++) {
+      //ly.ellipse(x * xspacing, height / 2 + yvalues[x], 16, 16);
+    }
+  }
+  

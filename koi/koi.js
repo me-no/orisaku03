@@ -1,4 +1,4 @@
-const scal = 4;
+const scal = 3;
 
 actualSize = 256;
 const width= actualSize*scal; 
@@ -215,7 +215,7 @@ function draw() {
     yval3 += 0.005;
     
     // Hackle くんの表示
-    image(imghk, 0,0,1024,1024);
+    image(imghk, 0,0,width,height);
 
     // sign
     textFont(font);

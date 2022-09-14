@@ -8,7 +8,7 @@ var height = actualSize*scal;
 let xspacing = scal; // Distance between each horizontal location
 let w; // Width of entire wave
 let theta = 0.0; // Start angle at 0
-let amplitude = height/4; // Height of wave
+let amplitude = 50.0*scal; // Height of wave
 let period = 180.0; // How many pixels before the wave repeats
 let dx; // Value for incrementing x
 let yvalues; // Using an array to store height values for the wave
@@ -87,15 +87,15 @@ function draw() {
     //fill(41,39,79);//for debug
     noStroke();
     for (let x = 0; x < yvalues.length - mask; x++) {
-        rect(x*xspacing, height/4+yvalues[x]-4*scal, scal, scal);
-    }
-
-    for (let x = 0; x < yvalues.length; x++) {
-        rect(x*xspacing, height*3/4+yvalues[x]-4*scal, scal, scal);
-    }
-
-    for (let x = 0; x < yvalues.length; x++) {
         rect(x*xspacing, height/2+yvalues[x]-4*scal, scal, scal);
+    }
+
+    for (let x = 0; x < yvalues.length; x++) {
+        rect(x*xspacing, height*2/3+yvalues[x]-4*scal, scal, scal);
+    }
+
+    for (let x = 0; x < yvalues.length; x++) {
+        rect(x*xspacing, height*2/5+yvalues[x]-4*scal, scal, scal);
     }
 
 
@@ -116,10 +116,10 @@ function draw() {
             //rect(x*xspacing+scal, height/2+yvalues[x]-4*scal, scal, scal);
         }
         for (let x = 0; x < yvalues.length - mask + 50; x++) {
-            rect(x*xspacing+scal, height*3/4+yvalues[x]-4*scal, scal, scal);
+            rect(x*xspacing+scal, height*4/5+yvalues[x]-4*scal, scal, scal);
         }
         for (let x = 0; x < yvalues.length - mask + 50; x++) {
-            rect(x*xspacing+scal, height/4+yvalues[x]-4*scal, scal, scal);
+            rect(x*xspacing+scal, height*2/5+yvalues[x]-4*scal, scal, scal);
         }
 
         initmask = initmask - 1;
